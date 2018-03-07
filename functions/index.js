@@ -10,6 +10,20 @@ const client = require('twilio')(accountSid, authToken);
 
 var moment = require('moment');
 
+const app = express();
+
+// Automatically allow cross-origin requests
+app.use(cors({ origin: true }));
+
+// Add middleware if you want.
+app.use(myMiddleware);
+
+// build multiple CRUD interfaces:
+// app.get('/news', (req, res) => {//...});
+app.get('/testing', (req, res) => { response.send("Hello from Firebase!") });
+// app.put('/:id', (req, res) => {//...});
+// app.delete('/:id', (req, res) => {//...});
+
 function sendMessage(to, body) {
   return client.messages
   .create({
@@ -27,6 +41,17 @@ function getMessageBody(quote) {
 }
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
+  return client.messages
+  .create({
+    to: '+16507961513',
+    from: '+18316100384',
+    body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+  })
+  .then(message => console.log(message))
+  .catch(err => console.log(err));
+});
+
+exports.testing = functions.https.onRequest((request, response) => {
   return client.messages
   .create({
     to: '+16507961513',
