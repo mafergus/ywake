@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import autoBind from 'react-autobind';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import PhoneNumberTextField from './country-code-dropdown/PhoneNumberTextField';
 
 const items = [];
 items.push(<MenuItem value={0} key={0} primaryText={`12:00am`} />);
@@ -17,36 +17,108 @@ for (let i=1; i < 12; i++) {
   items.push(<MenuItem value={i} key={i+12} primaryText={`${i}:00pm`} />);
 }
 
+const countries = [];
+countries.push(<MenuItem value={0} key={0} primaryText="+1 USA" />);
+countries.push(<MenuItem value={1} key={1} primaryText="+971 UAE" />);
+
+const WHITE_DIV = {
+  backgroundColor: "white",
+  marginRight: 2,
+  height: "inherit",
+};
+
 class App extends Component {
 
   constructor(props) {
     super(props);
+    autoBind(this);
     this.state = {
       value: 0,
+      selectedCountry: 0,
     };
   }
 
   handleChange = (event, index, value) => this.setState({ value });
 
+  handleChangeCountry = (event, index, value) => this.setState({ selectedCountry: value });
+
+  onCountryCodeChange = (data) => {
+    console.log("Country code ", data.callingCode);
+  };
+
+  // doRequest(options) {
+  //   return new Promise ((resolve, reject) => {
+  //     let req = http.request(options);
+
+  //     req.on('response', res => {
+  //       resolve(res);
+  //     });
+
+  //     req.on('error', err => {
+  //       reject(err);
+  //     });
+  //   }); 
+  // }
+
+  onSubmit(event) {
+    const opts = {};
+
+    fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/createUser', {
+      method: 'post',
+      body: JSON.stringify(opts),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("RECEIVED: ", data);
+    });
+  }
+
+  renderForm() {
+    return <div style={{ marginTop: 100, height: 80, textAlign: "center", alignSelf: "center", display: "flex", flexDirection: "row" }}>
+
+      <div style={WHITE_DIV}>
+        <PhoneNumberTextField
+          style={{ height: 80 }}
+          preferredCountries={['US', 'GB']}
+          defaultCountry={'US'}
+          defaultValue={'+1 555-555-5555'}
+          onChange={(data) => this.onCountryCodeChange(data)}
+        />
+      </div>
+
+      <div style={WHITE_DIV}>
+        <DropDownMenu
+          underlineStyle={{ display: 'none' }}
+          iconStyle={{ backgroundColor: "black" }}
+          maxHeight={300}
+          value={this.state.value}
+          onChange={this.handleChange}
+        >
+          {items}
+        </DropDownMenu>
+      </div>
+
+      <RaisedButton
+        style={{ height: 56, width: 150 }}
+        backgroundColor="#A78CD7"
+        labelColor="#FFFFFF"
+        label="Let's Go!"
+        onClick={this.onSubmit}
+      />
+    </div>;
+  }
+
   render() {
     return (
-      <div className="hero" style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
-        <h1 style={{ fontSize: "5em", color: "white", width: "100%", textAlign: "center" }}>
-          YWake
+      <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-2" }}>
+        <h1 style={{ fontSize: "2.3em", color: "white", width: "100%", textAlign: "center", marginTop: 230 }}>
+          Discover your daily inspiration.
         </h1>
-        <p style={{ fontSize: "1.5em", color: "white", width: "100%", textAlign: "center" }}>
-          Welcome to Ywake! Sign up for a daily dose of inspirational goodness, sent right to your phone!
+        <p style={{ fontSize: "1em", color: "white", width: "100%", textAlign: "center", marginTop: 180 }}>
+          Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
-        <div style={{ width: 500, padding: 10, marginTop: 200, backgroundColor: "white", textAlign: "center", alignSelf: "center", borderRadius: 5 }}>
-          <TextField
-            style={{ marginTop: 50, width: 350 }}
-            hintText="Enter Your Phone Number, with country code! eg +16508546767"
-          />
-          <DropDownMenu maxHeight={300} value={this.state.value} onChange={this.handleChange}>
-            {items}
-          </DropDownMenu>
-          <RaisedButton label="Let's Go!" />
-        </div>
+        {this.renderForm()}
+        <div className="hero-overlay" style={{ height: "100%", width: "100%", position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.45)", zIndex: "-1" }} />
       </div>
     );
   }

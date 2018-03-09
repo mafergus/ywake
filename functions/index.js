@@ -1,28 +1,27 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-admin.initializeApp(functions.config().firebase);
+var moment = require('moment');
+const cors = require('cors')
+const express = require('express');
 
 // Twilio Credentials
 const accountSid = 'ACa2c223eafd99f3f430296ea346ea63ec';
 const authToken = '4670e436d6461e314cfe2e38102940f7';
-// require the Twilio module and create a REST client
 const client = require('twilio')(accountSid, authToken);
 
-var moment = require('moment');
+admin.initializeApp(functions.config().firebase);
 
 const app = express();
-
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
 
-// Add middleware if you want.
-app.use(myMiddleware);
-
 // build multiple CRUD interfaces:
 // app.get('/news', (req, res) => {//...});
-app.get('/testing', (req, res) => { response.send("Hello from Firebase!") });
+app.post('/', (req, res) => { res.send("Hello from Firebase!") });
 // app.put('/:id', (req, res) => {//...});
 // app.delete('/:id', (req, res) => {//...});
+
+exports.createUser = functions.https.onRequest(app);
 
 function sendMessage(to, body) {
   return client.messages
@@ -51,15 +50,8 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   .catch(err => console.log(err));
 });
 
-exports.testing = functions.https.onRequest((request, response) => {
-  return client.messages
-  .create({
-    to: '+16507961513',
-    from: '+18316100384',
-    body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-  })
-  .then(message => console.log(message))
-  .catch(err => console.log(err));
+exports.letest = functions.https.onRequest((request, response) => {
+  return response.send("Hello from Firebase!");
 });
 
 exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => {
@@ -99,18 +91,4 @@ exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => 
     console.log(err);
     return;
   });
-
-  // return admin.database().ref('users/' + userId).once('value')
-  //   .then(userData => { 
-  //     console.log("userData: ", userData.val());
-  //     if (!userData.exists()) {
-  //       const userObject = {
-  //         displayName: getDisplayName(),
-  //         highScore: 0,
-  //       };
-  //       return admin.database().ref('users/' + userId).set(userObject);
-  //     }
-  //     return null;
-  //   })
-  //   .catch(err => console.log(err));
 });
