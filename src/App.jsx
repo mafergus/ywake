@@ -32,39 +32,30 @@ class App extends Component {
   constructor(props) {
     super(props);
     autoBind(this);
+
     this.state = {
       value: 0,
       selectedCountry: 0,
+      phoneNumber: 0,
+      time: 0,
     };
   }
 
-  handleChange = (event, index, value) => this.setState({ value });
+  handleChange = (event, index, value) => this.setState({ time: value });
 
   handleChangeCountry = (event, index, value) => this.setState({ selectedCountry: value });
 
   onCountryCodeChange = (data) => {
-    console.log("Country code ", data.callingCode);
+    // console.log("Country code ", data.callingCode);
   };
 
-  // doRequest(options) {
-  //   return new Promise ((resolve, reject) => {
-  //     let req = http.request(options);
-
-  //     req.on('response', res => {
-  //       resolve(res);
-  //     });
-
-  //     req.on('error', err => {
-  //       reject(err);
-  //     });
-  //   }); 
-  // }
+  onPhoneNumberChange(countryCode, phoneNumber) {
+    this.setState({ phoneNumber: countryCode + phoneNumber });
+  }
 
   onSubmit(event) {
-    const opts = {
-      phoneNumber: "+16507961513",
-      time: "13",
-    };
+    const { phoneNumber, time } = this.state;
+    const opts = { phoneNumber, time };
 
     fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/createUser/', {
       method: 'post',
@@ -72,29 +63,29 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      console.log("RECEIVED: ", data);
+      alert(data.status);
+      console.log("RECEIVED: ", data.status);
     });
   }
 
   renderForm() {
-    return <div style={{ marginTop: 100, height: 80, textAlign: "center", alignSelf: "center", display: "flex", flexDirection: "row" }}>
+    return <div style={{ marginTop: 100, height: 56, textAlign: "center", alignSelf: "center", display: "flex", flexDirection: "row" }}>
 
       <div style={WHITE_DIV}>
         <PhoneNumberTextField
-          style={{ height: 80 }}
+          style={{ height: 56 }}
           preferredCountries={['US', 'GB']}
-          defaultCountry={'US'}
           defaultValue={'+1 555-555-5555'}
-          onChange={(data) => this.onCountryCodeChange(data)}
+          onChange={this.onPhoneNumberChange}
         />
       </div>
 
-      <div style={WHITE_DIV}>
+      <div style={{ ...WHITE_DIV, borderWidth: 1, borderStyle: "solid", borderColor: "black" }}>
         <DropDownMenu
+          style={{ width: 150, borderRadius: 2 }}
           underlineStyle={{ display: 'none' }}
-          iconStyle={{ backgroundColor: "black" }}
           maxHeight={300}
-          value={this.state.value}
+          value={this.state.time}
           onChange={this.handleChange}
         >
           {items}
@@ -121,7 +112,10 @@ class App extends Component {
           Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
         {this.renderForm()}
-        <div className="hero-overlay" style={{ height: "100%", width: "100%", position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.45)", zIndex: "-1" }} />
+        <div
+          className="hero-overlay"
+          style={{ height: "100%", width: "100%", position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.45)", zIndex: "-1" }}
+        />
       </div>
     );
   }

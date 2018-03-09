@@ -41,10 +41,12 @@ function doCreateUser(req, res) {
       phoneNumber,
       time,
       nextQuote: 1,
-    });
+    })
+    .then(result => res.send({ status: "Success!" }))
+    .catch(err => res.send({ status: "Uh oh! There was an error! ", err }));
   }
 
-  return null;
+  return res.send("Uh oh! Error");
 
   // console.log("phoneNumber: " + req.body.phoneNumber + " time: " + req.body.time);
 

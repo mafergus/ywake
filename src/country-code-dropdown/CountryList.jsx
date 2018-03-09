@@ -90,7 +90,7 @@ export default class CountryList extends Component {
             country={country}
             selected={country.alpha2 === selectedCountry.alpha2}
             index={index}
-            onClick={() => onSelectCountry(country, false, false, true)}
+            onClick={onSelectCountry}
           />;
         }
         if (index - 1 === paginateTo) {

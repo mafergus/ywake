@@ -8,6 +8,7 @@ import uuid from 'uuid';
 import TextField from 'material-ui/TextField';
 import CountryList from './CountryList';
 import FlagIcon from 'react-flag-kit/lib/FlagIcon';
+import { MISSING_FLAGS } from './Constants';
 
 export default class PhoneNumberTextField extends Component {
 
@@ -24,7 +25,6 @@ export default class PhoneNumberTextField extends Component {
     paginate: PropTypes.number,
     disabled: PropTypes.bool,
     placeholder: PropTypes.string,
-    defaultCountry: PropTypes.string,
     onChange: PropTypes.func,
     minLengthMessage: PropTypes.string,
     maxLengthMessage: PropTypes.string,
@@ -38,7 +38,6 @@ export default class PhoneNumberTextField extends Component {
     removeToken: <span>&times;</span>,
     paginate: 50,
     placeholder: 'Search for a calling code by country name',
-    defaultCountry: 'US',
     disabled: false,
     minLengthMessage: 'Too short to be a valid phone number',
     maxLengthMessage: 'Too long to be a valid phone number',
@@ -52,14 +51,14 @@ export default class PhoneNumberTextField extends Component {
     autoBind(this);
     this.phoneUtil = PhoneNumberUtil.getInstance();
     this.countries = countries.callingCountries.all.filter((country) => country.status === 'assigned');
+    const US = this.countries.filter(country => country.alpha2 === "US")[0];
     this.mouseDownOnMenu = false;
     this._pageClick = this.pageClick.bind(this);
-    this.missingFlags = { AQ: 'WW', BQ: 'NL', EH: 'WW-AFR', MF: 'FR', SH: 'GB' };
     this.boxShadowStyle = '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4)';
     this.bgColorTransitionStyle = 'background-color .25s, color .25s';
     this.state = {
       open: false,
-      selectedCountry: {},
+      selectedCountry: US,
       phoneNumber: '',
       searchTerm: '',
       valid: false,
@@ -183,10 +182,12 @@ export default class PhoneNumberTextField extends Component {
     return number && alpha2 && alpha2.length ? number.substr(alpha2.length + 1) : '';
   }
 
-  onChangeCallback (country) {
-    if (country) {
-      this.selectCountry(country);
-    }
+  onChangeText(value) {
+    const { onChange } = this.props;
+    const { selectedCountry } = this.state;
+
+    this.setState({ phoneNumber: value });
+    onChange(selectedCountry.countryCallingCodes[0], value);
   }
 
   cancelMultiSelect () {
@@ -211,23 +212,25 @@ export default class PhoneNumberTextField extends Component {
     this.setState({ filteredCountries: value.trim() === '' ? preferredCountries : filteredCountries, searchTerm: value, tabbedIndex: -1 })
   }
 
-  selectCountry (country, mounted = false, multiSelect = false, onClick = false) {
-    const { onChange } = this.props
-    const { countryCallingCodes, alpha2 } = country
-    const { phoneNumber, searchTerm } = this.state
+  selectCountry(country, mounted = false, multiSelect = false, onClick = false) {
+    const { onChange } = this.props;
+    const { countryCallingCodes, alpha2 } = country;
+    const { phoneNumber, searchTerm } = this.state;
+
     if (countryCallingCodes && countryCallingCodes.length > 1 && !multiSelect) {
       return this.setState({ multiSelectOpen: true, multiSelectItem: country }, () => {
         this.multiSelect.style.zIndex = '101'
-      })
+      });
     }
-    const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0])
-    const validation = this.validateNumber(alpha2, phoneNumber)
+    const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0]);
+    const validation = this.validateNumber(alpha2, phoneNumber);
+
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
-      this.cancelMultiSelect()
+      this.cancelMultiSelect();
       if (!mounted) {
-        this.phoneInput.focus()
+        this.phoneInput.focus();
         if (onChange) {
-          onChange({ ...country, ...validation, callingCode, phoneNumber })
+          onChange(callingCode, phoneNumber);
         }
       }
     })
@@ -238,7 +241,7 @@ export default class PhoneNumberTextField extends Component {
       this.setState({ open: false, tabbedIndex: -1 }, () => {
         this.countryDropdown.scrollTop = 0
       })
-      this.cancelMultiSelect()
+      this.cancelMultiSelect();
     }
   }
 
@@ -256,11 +259,9 @@ export default class PhoneNumberTextField extends Component {
   }
 
   clearInput () {
-    const { open, selectedCountry } = this.state
+    const { open } = this.state
     if (open) {
       this.setState({ searchTerm: '', filteredCountries: this.getPreferredCountries(), multiSelectItem: [], multiSelectOpen: false })
-    } else if (selectedCountry === 'unknown') {
-      this.setState({ phoneNumber: '' })
     } else {
       this.setState({ phoneNumber: '' })
       this.cancelMultiSelect()
@@ -278,13 +279,8 @@ export default class PhoneNumberTextField extends Component {
 
   propChangeHandler (props, mounted, reset) {
     const { selectedCountry } = this.state;
-    const { defaultCountry, defaultValue } = props;
+    const { defaultValue } = props;
     const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown';
-    if (defaultValue) {
-      this.setState({ selectedCountry: 'unknown' })
-    } else if (defaultCountry && countryNotSelected) {
-      this.setState({ phoneNumber: '' }, () => this.selectCountry(countries.countries[defaultCountry], mounted || reset));
-    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -304,12 +300,16 @@ export default class PhoneNumberTextField extends Component {
     window.removeEventListener('mousedown', this._pageClick);
   }
 
+  getFlag(country) {
+    const { alpha2 } = country;
+    return (MISSING_FLAGS[alpha2] ? MISSING_FLAGS[alpha2] : alpha2.toUpperCase()) || 'WW';
+  } 
+
   render () {
     const { open, filteredCountries, selectedCountry, phoneNumber, searchTerm, message, paginateCount } = this.state;
     const { removeToken, placeholder, disabled, inputClassName, paginate } = this.props;
-    const { alpha2 } = selectedCountry;
     const inputID = uuid.v4();
-    const flag = (this.missingFlags[alpha2] ? this.missingFlags[alpha2] : selectedCountry !== 'unknown' && Object.keys(selectedCountry).length > 0 && alpha2.toUpperCase()) || 'WW';
+    const flag = this.getFlag(selectedCountry);
     let countryCode = "+1";
     if (typeof selectedCountry !== "undefined" && selectedCountry.hasOwnProperty("countryCallingCodes")) {
       countryCode = selectedCountry.countryCallingCodes[0];
@@ -366,7 +366,7 @@ export default class PhoneNumberTextField extends Component {
             onKeyDown={(e) => this.onKeyDown(e)}
             value={open ? searchTerm : phoneNumber}
             disabled={disabled}
-            onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.setState({ phoneNumber: e.target.value })}
+            onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.onChangeText(e.target.value)}
           />
         </div>
         <CountryList

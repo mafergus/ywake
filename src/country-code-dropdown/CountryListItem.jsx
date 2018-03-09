@@ -60,7 +60,7 @@ export default class CountryListItem extends Component {
         borderBottom: lastPreferred && lastPreferred.alpha2 === alpha2 && searchTerm === '' ? '1px solid #c1c1c1' : '',
         transition: this.bgColorTransitionStyle,
         backgroundColor: this.getBgColor() }}
-      onClick={onClick}>
+      onClick={() => onClick(country, false, false, true)}>
       <h6 style={{margin: 0, display: "flex", alignItems: "center"}}>
         <FlagIcon style={{ marginRight: 10 }} code={MISSING_FLAGS[alpha2] ? MISSING_FLAGS[alpha2] : alpha2} size={30} />
         {name}&nbsp;
