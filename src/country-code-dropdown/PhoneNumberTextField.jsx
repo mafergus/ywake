@@ -420,11 +420,13 @@ export default class PhoneNumberTextField extends Component {
         </div>
         <CountryList
           filteredCountries={filteredCountries}
+          onSelectCountry={(country, arg1, arg2, arg3) => this.selectCountry(country, arg1, arg2, arg3)}
           open={open}
           paginate={paginate}
           paginateCount={paginateCount}
           handleMultiSelect={this.onChangeMultiSelect}
           setCountryDropDown={this.setDropDown}
+          style={{ position: "absolute", bottom: 0 }}
         />
       </div>
     )
