@@ -17,11 +17,38 @@ app.use(cors({ origin: true }));
 
 // build multiple CRUD interfaces:
 // app.get('/news', (req, res) => {//...});
-app.post('/', (req, res) => { res.send("Hello from Firebase!") });
+app.post('/', (req, res) => { doCreateUser(req, res) });
+app.get('/testing', (req, res) => { res.send("THIS IS A PLACEHOLDER GET RESPONSE") });
 // app.put('/:id', (req, res) => {//...});
 // app.delete('/:id', (req, res) => {//...});
 
 exports.createUser = functions.https.onRequest(app);
+
+function doCreateUser(req, res) {
+  console.log("req.body: ", req.body)
+  const jsonBody = JSON.parse(req.body);
+  console.log("jsonBody: ", jsonBody);
+  console.log("hasPhoneNumber: " + jsonBody.hasOwnProperty("phoneNumber") + " hasTime: " + jsonBody.hasOwnProperty("time"));
+
+  if (jsonBody.hasOwnProperty("phoneNumber") && jsonBody.hasOwnProperty("time")) {
+    const phoneNumber = jsonBody.phoneNumber;
+    const time = jsonBody.time;
+    console.log("phoneNumber: " + phoneNumber + " time: " + time);
+
+    var newUserRef = admin.database().ref('users').push();
+
+    return newUserRef.set({ 
+      phoneNumber,
+      time,
+      nextQuote: 1,
+    });
+  }
+
+  return null;
+
+  // console.log("phoneNumber: " + req.body.phoneNumber + " time: " + req.body.time);
+
+}
 
 function sendMessage(to, body) {
   return client.messages
@@ -48,10 +75,6 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   })
   .then(message => console.log(message))
   .catch(err => console.log(err));
-});
-
-exports.letest = functions.https.onRequest((request, response) => {
-  return response.send("Hello from Firebase!");
 });
 
 exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => {

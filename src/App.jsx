@@ -61,9 +61,12 @@ class App extends Component {
   // }
 
   onSubmit(event) {
-    const opts = {};
+    const opts = {
+      phoneNumber: "+16507961513",
+      time: "13",
+    };
 
-    fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/createUser', {
+    fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/createUser/', {
       method: 'post',
       body: JSON.stringify(opts),
     })
