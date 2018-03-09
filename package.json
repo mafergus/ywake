@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "fluid-react": "0.0.41",
     "material-ui": "^0.20.0",
     "npm": "^5.7.1",
     "react": "^16.2.0",
