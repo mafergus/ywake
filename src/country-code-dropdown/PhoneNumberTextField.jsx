@@ -60,7 +60,6 @@ export default class PhoneNumberTextField extends Component {
     this.state = {
       open: false,
       selectedCountry: {},
-      intlPhoneNumber: '',
       phoneNumber: '',
       searchTerm: '',
       valid: false,
@@ -100,13 +99,12 @@ export default class PhoneNumberTextField extends Component {
     }
   }
 
-  formatValidation (valid, internalMessage, friendlyMessage, parsed, intlPhoneNumber) {
+  formatValidation (valid, internalMessage, friendlyMessage, parsed) {
     return {
       valid,
       internalMessage,
       friendlyMessage,
       parsed,
-      intlPhoneNumber
     };
   }
 
@@ -117,14 +115,13 @@ export default class PhoneNumberTextField extends Component {
         this.phoneUtil.parse(phoneNumber, _alpha2);
       } catch (e) {
         const { message } = e;
-        return this.formatValidation(false, message, this.mapErrorMessage(message), null, null);
+        return this.formatValidation(false, message, this.mapErrorMessage(message), null);
       }
       const { validMessage } = this.props;
       const parsed = this.phoneUtil.parse(phoneNumber, _alpha2);
       const valid = this.phoneUtil.isPossibleNumber(parsed);
-      const intlPhoneNumber = this.phoneUtil.format(parsed, PhoneNumberFormat.INTERNATIONAL);
 
-      return this.formatValidation(valid, '', valid ? validMessage : this.mapErrorMessage(), parsed, intlPhoneNumber);
+      return this.formatValidation(valid, '', valid ? validMessage : this.mapErrorMessage(), parsed);
     } else {
       const { callingCodeMessage } = this.props;
 
@@ -186,40 +183,9 @@ export default class PhoneNumberTextField extends Component {
     return number && alpha2 && alpha2.length ? number.substr(alpha2.length + 1) : '';
   }
 
-  formatNumber (alpha2, number) {
-    const unformattedNumber = this.unformatNumber(unformattedNumber);
-    const formatter = new AsYouTypeFormatter(alpha2);
-    const formattedNumberArray = `+${number}`.split('').map((char) => formatter.inputDigit(char));
-    const intlPhoneNumber = formattedNumberArray.length ? formattedNumberArray[formattedNumberArray.length - 1] : unformattedNumber;
-    formatter.clear();
-
-    return intlPhoneNumber;
-  }
-
   onChangeCallback (country) {
     if (country) {
       this.selectCountry(country);
-    }
-  }
-
-  onChangePhone (value = '') {
-    const { selectedCountry, callingCode } = this.state
-    const unformattedNumber = this.unformatNumber(value)
-    const lookupCountry = this.lookupCountry(value.replace('+', ''))
-    const country = (lookupCountry || Object.keys(selectedCountry).length > 0) && selectedCountry
-    if (this.testNumber(unformattedNumber) && value !== callingCode) {
-      if (country) {
-        const { alpha2 } = country
-        const intlPhoneNumber = this.formatNumber(alpha2, unformattedNumber)
-        const phoneNumber = this.getNationalNumber(alpha2, intlPhoneNumber)
-        const validation = this.validateNumber(alpha2, intlPhoneNumber)
-        const { friendlyMessage, valid } = validation
-        this.setState({ intlPhoneNumber, phoneNumber, message: friendlyMessage, valid }, () => this.onChangeCallback(country))
-      }
-    } else if (unformattedNumber.length < 1) {
-      this.setState({ intlPhoneNumber: unformattedNumber }, () => () => this.onChangeCallback(country))
-    } else {
-      this.setState({ intlPhoneNumber: value }, () => () => this.onChangeCallback(country))
     }
   }
 
@@ -248,24 +214,20 @@ export default class PhoneNumberTextField extends Component {
   selectCountry (country, mounted = false, multiSelect = false, onClick = false) {
     const { onChange } = this.props
     const { countryCallingCodes, alpha2 } = country
-    const { intlPhoneNumber, phoneNumber, searchTerm } = this.state
+    const { phoneNumber, searchTerm } = this.state
     if (countryCallingCodes && countryCallingCodes.length > 1 && !multiSelect) {
       return this.setState({ multiSelectOpen: true, multiSelectItem: country }, () => {
         this.multiSelect.style.zIndex = '101'
       })
     }
     const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0])
-    const _intlPhoneNumber = mounted ? intlPhoneNumber : this.formatNumber(alpha2, this.unformatNumber(`${callingCode}${phoneNumber}`))
-    const validation = this.validateNumber(alpha2, _intlPhoneNumber)
+    const validation = this.validateNumber(alpha2, phoneNumber)
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
-      if (onClick) {
-        this.setState({ intlPhoneNumber: _intlPhoneNumber })
-      }
       this.cancelMultiSelect()
       if (!mounted) {
         this.phoneInput.focus()
         if (onChange) {
-          onChange({ ...country, ...validation, callingCode, phoneNumber, intlPhoneNumber: _intlPhoneNumber })
+          onChange({ ...country, ...validation, callingCode, phoneNumber })
         }
       }
     })
@@ -298,10 +260,9 @@ export default class PhoneNumberTextField extends Component {
     if (open) {
       this.setState({ searchTerm: '', filteredCountries: this.getPreferredCountries(), multiSelectItem: [], multiSelectOpen: false })
     } else if (selectedCountry === 'unknown') {
-      this.setState({ intlPhoneNumber: '', phoneNumber: '' })
-      this.onChangePhone('')
+      this.setState({ phoneNumber: '' })
     } else {
-      this.setState({ intlPhoneNumber: '', phoneNumber: '' })
+      this.setState({ phoneNumber: '' })
       this.cancelMultiSelect()
     }
     this.phoneInput.focus()
@@ -316,22 +277,13 @@ export default class PhoneNumberTextField extends Component {
   }
 
   propChangeHandler (props, mounted, reset) {
-    const { selectedCountry } = this.state
-    const { defaultCountry, defaultValue } = props
-    const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown'
+    const { selectedCountry } = this.state;
+    const { defaultCountry, defaultValue } = props;
+    const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown';
     if (defaultValue) {
-      const { intlPhoneNumber, parsed } = this.validateNumber('unknown', defaultValue)
-      if (intlPhoneNumber) {
-        this.setState({ intlPhoneNumber, phoneNumber: parsed.getNationalNumber().toString() }, () => {
-          this.selectCountry(this.lookupCountry(parsed.getCountryCode()), mounted || reset)
-        })
-      } else {
-        this.setState({ intlPhoneNumber: defaultValue, selectedCountry: 'unknown' })
-      }
+      this.setState({ selectedCountry: 'unknown' })
     } else if (defaultCountry && countryNotSelected) {
-      this.setState({ intlPhoneNumber: '', phoneNumber: '' }, () => {
-        this.selectCountry(countries.countries[defaultCountry], mounted || reset)
-      })
+      this.setState({ phoneNumber: '' }, () => this.selectCountry(countries.countries[defaultCountry], mounted || reset));
     }
   }
 
@@ -353,7 +305,7 @@ export default class PhoneNumberTextField extends Component {
   }
 
   render () {
-    const { open, filteredCountries, selectedCountry, intlPhoneNumber, searchTerm, message, paginateCount } = this.state;
+    const { open, filteredCountries, selectedCountry, phoneNumber, searchTerm, message, paginateCount } = this.state;
     const { removeToken, placeholder, disabled, inputClassName, paginate } = this.props;
     const { alpha2 } = selectedCountry;
     const inputID = uuid.v4();
@@ -367,7 +319,6 @@ export default class PhoneNumberTextField extends Component {
     return (
       <div
         style={{position: 'relative', height: "inherit", boxShadow: open ? this.boxShadowStyle : null}}
-        ref={(input) => { this.intlPhoneInput = input }}
         className={`intl-phone-input${open ? ' open' : ''}`}
         onMouseDown={() => this.mouseDownHandler()}
         onMouseUp={() => this.mouseUpHandler()}>
@@ -391,7 +342,7 @@ export default class PhoneNumberTextField extends Component {
               }
             </button>
           </div>
-          {((open && searchTerm.length > 0) || (!open && intlPhoneNumber.length > 0)) && !disabled &&
+          {open && searchTerm.length > 0 && !disabled &&
             <span
               aria-hidden='true'
               className='remove-token-container'
@@ -413,9 +364,9 @@ export default class PhoneNumberTextField extends Component {
             className={`form-control phone-input${inputClassName ? inputClassName : ''}`}
             placeholder={open ? placeholder : ''}
             onKeyDown={(e) => this.onKeyDown(e)}
-            value={open ? searchTerm : intlPhoneNumber}
+            value={open ? searchTerm : phoneNumber}
             disabled={disabled}
-            onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.onChangePhone(e.target.value)}
+            onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.setState({ phoneNumber: e.target.value })}
           />
         </div>
         <CountryList
