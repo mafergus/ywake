@@ -64,8 +64,9 @@ function sendMessage(to, body) {
 }
 
 function getMessageBody(quote) {
-  return quote.text + " - " + quote.author + "\n\n" 
-    + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com";
+  // return quote.text + " - " + quote.author + "\n\n" 
+    // + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com";
+  return quote.text + " - " + quote.author;
 }
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
