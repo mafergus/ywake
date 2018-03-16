@@ -27,20 +27,29 @@ exports.createUser = functions.https.onRequest(app);
 function doCreateUser(req, res) {
   console.log("req.body: ", req.body)
   const jsonBody = JSON.parse(req.body);
-  console.log("jsonBody: ", jsonBody);
-  console.log("hasPhoneNumber: " + jsonBody.hasOwnProperty("phoneNumber") + " hasTime: " + jsonBody.hasOwnProperty("time"));
 
   if (jsonBody.hasOwnProperty("phoneNumber") && jsonBody.hasOwnProperty("time")) {
     const phoneNumber = jsonBody.phoneNumber;
     const time = jsonBody.time;
-    console.log("phoneNumber: " + phoneNumber + " time: " + time);
 
-    var newUserRef = admin.database().ref('users').push();
+    return admin.database().ref('users')
+    .orderByChild('phoneNumber')
+    .equalTo(phoneNumber)
+    .once('value')
+    .then(snapshot => {
+      if (!snapshot.exists()) {
+        return;
+      }
+      throw new Error("user exists");
+    })
+    .then(() => {
+      var newUserRef = admin.database().ref('users').push();
 
-    return newUserRef.set({ 
-      phoneNumber,
-      time,
-      nextQuote: 1,
+      return newUserRef.set({ 
+        phoneNumber,
+        time,
+        nextQuote: 1,
+      });
     })
     .then(result => res.send({ status: "Success!" }))
     .catch(err => res.send({ status: "Uh oh! There was an error! ", err }));

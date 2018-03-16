@@ -139,8 +139,6 @@ class App extends Component {
           Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
         {this.renderForm()}
-        <div className="hero-overlay" />
-        <div className="radial-gradient" />
       </div>
     );
   }

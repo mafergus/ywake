@@ -19,7 +19,7 @@ h1 {
 
 .hero {
   position: absolute;
-  background-image: url("images/person-and-stars.jpg");
+  background-image: url("images/person-and-stars-small.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
