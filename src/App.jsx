@@ -14,18 +14,14 @@ import { Android } from './Icons';
 import { connect } from "react-redux";
 
 const items = [];
-items.push(<MenuItem value={0} key={0} primaryText={`12:00am`} />);
+items.push(<MenuItem value={0} key={0} primaryText={`12:00am UTC`} />);
 for (let i=1; i < 12; i++) {
-  items.push(<MenuItem value={i} key={i} primaryText={`${i}:00am`} />);
+  items.push(<MenuItem value={i} key={i} primaryText={`${i}:00am UTC`} />);
 }
-items.push(<MenuItem value={12} key={12} primaryText={`12:00pm`} />);
+items.push(<MenuItem value={12} key={12} primaryText={`12:00pm UTC`} />);
 for (let i=1; i < 12; i++) {
-  items.push(<MenuItem value={i+12} key={i+12} primaryText={`${i}:00pm`} />);
+  items.push(<MenuItem value={i+12} key={i+12} primaryText={`${i}:00pm UTC`} />);
 }
-
-const countries = [];
-countries.push(<MenuItem value={0} key={0} primaryText="+1 USA" />);
-countries.push(<MenuItem value={1} key={1} primaryText="+971 UAE" />);
 
 class App extends Component {
 
@@ -99,7 +95,8 @@ class App extends Component {
             borderRightWidth: 1, borderRightColor: lightGray, marginBottom: browser.lessThan.large ? 5 : 0 }}
         >
           <DropDownMenu
-            style={{ width: 150, height: 50, borderRadius: 2 }}
+            style={{ width: 150, height: 50, borderRadius: 2, paddingLeft: 0, paddingRight: 0 }}
+            labelStyle={{ padding: 0 }}
             iconStyle={{ color: "black" }}
             iconButton={Android}
             maxHeight={300}
