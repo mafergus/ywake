@@ -19,10 +19,25 @@ h1 {
 
 .hero {
   position: absolute;
-  height: "100%";
-  width: "100";
   background-image: url("images/person-and-stars.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+
+.hero-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.57);
+  z-index: -1;
+}
+
+.radial-gradient {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-image: radial-gradient(50% 65%, rgba(37, 20, 202, 0.00) 46%, rgba(66, 44, 179, 0.04) 46%, #C86DD7 85%);
+  opacity: 0.1;
+  z-index: -2;
 }

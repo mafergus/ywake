@@ -130,7 +130,7 @@ class App extends Component {
     const { browser } = this.props;
 
     return (
-      <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-2" }}>
+      <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-3" }}>
         <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", marginTop: 160 }}>
           Discover your daily inspiration.
         </h1>
@@ -139,10 +139,8 @@ class App extends Component {
           Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
         {this.renderForm()}
-        <div
-          className="hero-overlay"
-          style={{ height: "100%", width: "100%", position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.45)", zIndex: "-1" }}
-        />
+        <div className="hero-overlay" />
+        <div className="radial-gradient" />
       </div>
     );
   }
