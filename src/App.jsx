@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -7,6 +8,10 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import PhoneNumberTextField from './country-code-dropdown/PhoneNumberTextField';
 import { Col, Row } from 'fluid-react';
+import DocumentTitle from 'react-document-title';
+import { lightGray } from './colors';
+import { Android } from './Icons';
+import { connect } from "react-redux";
 
 const items = [];
 items.push(<MenuItem value={0} key={0} primaryText={`12:00am`} />);
@@ -15,19 +20,18 @@ for (let i=1; i < 12; i++) {
 }
 items.push(<MenuItem value={12} key={12} primaryText={`12:00pm`} />);
 for (let i=1; i < 12; i++) {
-  items.push(<MenuItem value={i} key={i+12} primaryText={`${i}:00pm`} />);
+  items.push(<MenuItem value={i+12} key={i+12} primaryText={`${i}:00pm`} />);
 }
 
 const countries = [];
 countries.push(<MenuItem value={0} key={0} primaryText="+1 USA" />);
 countries.push(<MenuItem value={1} key={1} primaryText="+971 UAE" />);
 
-const WHITE_DIV = {
-  backgroundColor: "white",
-  height: "inherit",
-};
-
 class App extends Component {
+
+  static propTypes = {
+    browser: PropTypes.object.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -69,17 +73,19 @@ class App extends Component {
   }
 
   renderForm() {
+    const { browser } = this.props;
+
     return <div style={{ width: "100%" }}>
       <Row
-        style={{ marginTop: 100, height: 56, textAlign: "center", alignSelf: "center", display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}
+        style={{ marginTop: 100, height: 50, textAlign: "center", alignSelf: "center",
+          display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}
       >
         <Col
           md={11}
           lg={3} 
-          style={WHITE_DIV}
+          style={{ backgroundColor: "white", height: "inherit", marginBottom: browser.lessThan.large ? 5 : 0 }}
         >
           <PhoneNumberTextField
-            style={{ height: 56 }}
             preferredCountries={['US', 'GB']}
             defaultValue={'+1 555-555-5555'}
             onChange={this.onPhoneNumberChange}
@@ -89,11 +95,13 @@ class App extends Component {
         <Col
           md={11}
           lg={1}
-          style={{ ...WHITE_DIV, borderWidth: 1, borderStyle: "solid", borderColor: "black" }}
+          style={{ backgroundColor: "white", height: "inherit", borderRightStyle: "solid",
+            borderRightWidth: 1, borderRightColor: lightGray, marginBottom: browser.lessThan.large ? 5 : 0 }}
         >
           <DropDownMenu
-            style={{ width: 150, borderRadius: 2 }}
-            underlineStyle={{ display: 'none' }}
+            style={{ width: 150, height: 50, borderRadius: 2 }}
+            iconStyle={{ color: "black" }}
+            iconButton={Android}
             maxHeight={300}
             value={this.state.time}
             onChange={this.handleChange}
@@ -107,7 +115,7 @@ class App extends Component {
           lg={1}
         >
           <RaisedButton
-            style={{ height: 56, width: "100%" }}
+            style={{ height: 50, width: "100%" }}
             backgroundColor="#A78CD7"
             labelColor="#FFFFFF"
             label="SUBMIT"
@@ -119,12 +127,15 @@ class App extends Component {
   }
 
   render() {
+    const { browser } = this.props;
+
     return (
       <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-2" }}>
-        <h1 style={{ fontSize: "2.3em", color: "white", width: "100%", textAlign: "center", marginTop: 160 }}>
+        <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", marginTop: 160 }}>
           Discover your daily inspiration.
         </h1>
-        <p style={{ fontSize: "1em", color: "white", width: "100%", textAlign: "center", marginTop: 180 }}>
+        <p style={{ fontSize: "1em", color: "white", width: browser.lessThan.large ? "80%" : "100%",
+         textAlign: "center", marginTop: 180, alignSelf: "center" }}>
           Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
         {this.renderForm()}
@@ -137,12 +148,20 @@ class App extends Component {
   }
 }
 
+function mapStateToProps(state, props) {
+  return {
+    browser: state.browser,
+  };
+}
+
 class MaterialApp extends Component {
   render() {
-    return <MuiThemeProvider>
-      <App />
-    </MuiThemeProvider>;
+    return <DocumentTitle title="Ywake">
+      <MuiThemeProvider>
+        <App browser={this.props.browser} />
+      </MuiThemeProvider>
+    </DocumentTitle>;
   }
 }
 
-export default MaterialApp;
+export default connect(mapStateToProps)(MaterialApp);

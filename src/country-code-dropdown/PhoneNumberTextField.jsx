@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import CountryList from './CountryList';
 import FlagIcon from 'react-flag-kit/lib/FlagIcon';
 import { MISSING_FLAGS } from './Constants';
+import { lightGray } from '../colors';
 
 export default class PhoneNumberTextField extends Component {
 
@@ -318,18 +319,27 @@ export default class PhoneNumberTextField extends Component {
 
     return (
       <div
-        style={{position: 'relative', height: "inherit", boxShadow: open ? this.boxShadowStyle : null}}
+        style={{ position: 'relative', height: "inherit", boxShadow: open ? this.boxShadowStyle : null,
+          borderRightStyle: "solid", borderRightWidth: 1, borderRightColor: lightGray }}
         className={`intl-phone-input${open ? ' open' : ''}`}
         onMouseDown={() => this.mouseDownHandler()}
         onMouseUp={() => this.mouseUpHandler()}>
-        <div className='input-group' style={{ display: "flex", alignItems: "center", height: "inherit", borderColor: "black", borderWidth: 1, borderStyle: "solid", borderRadius: 2 }}>
-          <div className='input-group-btn' style={{ height: "inherit" }}>
+        <div className='input-group' style={{ display: "flex", alignItems: "center", height: "inherit", borderWidth: 1, borderRadius: 2 }}>
+          <div
+            className='input-group-btn'
+            style={{ 
+              height: "inherit",
+              borderRight: lightGray,
+              borderRightStyle: "solid",
+              borderWidth: 1
+            }}
+          >
             <button
               type='button'
               tabIndex={0}
               disabled={disabled}
               aria-hidden
-              style={{ height: "100%", borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer' }}
+              style={{ height: "100%", border: "none", borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer' }}
               className='btn btn-secondary btn-primary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
               {flag &&
@@ -357,6 +367,8 @@ export default class PhoneNumberTextField extends Component {
           <TextField
             style={{ borderBottomLeftRadius: open ? 0 : null, borderBottomRightRadius: open ? 0 : null, marginLeft: 10, marginRight: 38 }}
             id={inputID}
+            hintText="555-555-5555"
+            hintStyle={{ color: lightGray}}
             autoComplete={'off'}
             aria-describedby={'validation-info'}
             type='text'

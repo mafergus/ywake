@@ -1,32 +1,17 @@
 @font-face {
-  font-family: 'Higarino Sans';
+  font-family: 'Nunito Light';
   font-style: normal;
   font-weight: normal;
-  src: local("Higarino Sans"),
-  local("OpenSans"),
-  url("fonts/OpenSans-Regular.woff2") format("woff2"),
-  url("fonts/OpenSans-Regular.woff") format("woff"),
-  url("fonts/OpenSans-Regular.ttf") format("truetype");
+  src: local("Nunito Light"),
+  local("Nunito Light"),
+  url("fonts/Nunito-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Higarino Sans';
+  font-family: 'Nunito Regular';
   font-style: normal;
-  font-weight: 300;
-  src: local("Open Sans Light"),
-  local("OpenSans-Light"),
-  url("../fonts/OpenSans-Light.woff2") format("woff2"),
-  url("../fonts/OpenSans-Light.woff") format("woff"),
-  url("../fonts/OpenSans-Light.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 600;
-  src: local('Open Sans Semibold'),
-  local('OpenSans-Semibold'),
-  url("../fonts/OpenSans-Semibold.woff2") format("woff2"),
-  url("../fonts/OpenSans-Semibold.woff") format("woff"),
-  url("../fonts/OpenSans-Semibold.ttf") format("truetype");
+  font-weight: normal;
+  src: local("Nunito Regular"),
+  local("Nunito Regular"),
+  url("fonts/Nunito-Light.ttf") format("truetype");
 }
