@@ -73,7 +73,7 @@ class App extends Component {
 
     return <div style={{ width: "100%" }}>
       <Row
-        style={{ marginTop: 100, height: 50, textAlign: "center", alignSelf: "center",
+        style={{ marginTop: browser.lessThan.large ? 60 : 100, height: 50, textAlign: "center", alignSelf: "center",
           display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "center" }}
       >
         <Col
@@ -128,11 +128,12 @@ class App extends Component {
 
     return (
       <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-3" }}>
-        <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", marginTop: 160 }}>
+        <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", 
+          marginTop: browser.lessThan.large ? 40 : 160 }}>
           Discover your daily inspiration.
         </h1>
         <p style={{ fontSize: "1em", color: "white", width: browser.lessThan.large ? "80%" : "100%",
-         textAlign: "center", marginTop: 180, alignSelf: "center" }}>
+         textAlign: "center", marginTop: browser.lessThan.large ? 70 : 180, alignSelf: "center" }}>
           Sign up for a daily dose of inspiration, sent right to your phone!
         </p>
         {this.renderForm()}

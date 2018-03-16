@@ -73,21 +73,9 @@ function sendMessage(to, body) {
 }
 
 function getMessageBody(quote) {
-  // return quote.text + " - " + quote.author + "\n\n" 
-    // + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com";
-  return quote.text + " - " + quote.author;
+  return quote.text + " - " + quote.author + "\n\n" 
+    + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com. Opt out by replying OUT";
 }
-
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  return client.messages
-  .create({
-    to: '+16507961513',
-    from: '+18316100384',
-    body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-  })
-  .then(message => console.log(message))
-  .catch(err => console.log(err));
-});
 
 exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => {
   var now = moment().utc();
