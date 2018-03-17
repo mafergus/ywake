@@ -52,16 +52,14 @@ export default class CountryList extends Component {
   }
 
   renderPagination(index, paginateCount) {
-    return (
-      <div
-        className='dropdown-item'
-        aria-hidden
-        style={{padding: 15, cursor: 'pointer', transition: this.bgColorTransitionStyle}}
-        key={`addit-results-${index}`}
-        onClick={() => this.setState({ paginateCount: paginateCount + 1 })}>
-        {PAGINATE_TEXT}
-      </div>
-    );
+    return <div
+      className='dropdown-item'
+      aria-hidden
+      style={{padding: 15, cursor: 'pointer', transition: this.bgColorTransitionStyle}}
+      key={`addit-results-${index}`}
+      onClick={() => this.setState({ paginateCount: paginateCount + 1 })}>
+      {PAGINATE_TEXT}
+    </div>;
   }
 
   renderNoResults() {
@@ -84,7 +82,7 @@ export default class CountryList extends Component {
       multiSelectItem,
       selectedCountry 
     } = this.state;
-    
+
     const { callingCodeDivider, 
       onSelectCountry, 
       open,
