@@ -27,10 +27,18 @@ export default class AdminPage extends Component {
     .then(response => response.json())
     .then(data => {
       alert(data.status);
+      this.clearData();
       console.log("RECEIVED: ", data.status);
     })
     .catch(err => {
       alert("UH OH SHIT FUCKED UP: " + err);
+    });
+  };
+
+  clearData = () => {
+    this.setState({
+      author: '',
+      text: '',
     });
   };
 
