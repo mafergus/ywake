@@ -81,8 +81,12 @@ export default class CountryList extends Component {
     const { paginateCount, multiSelectOpen, multiSelectItem, selectedCountry } = this.state;
     const { callingCodeDivider, 
       onSelectCountry, 
-      open, filteredCountries, paginate, maxHeight,
-      handleMultiSelect, setCountryDropDown,
+      open,
+      filteredCountries,
+      paginate,
+      maxHeight,
+      handleMultiSelect,
+      setCountryDropDown,
       style 
     } = this.props;
 
