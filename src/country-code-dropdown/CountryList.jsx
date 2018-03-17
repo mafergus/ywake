@@ -74,7 +74,8 @@ export default class CountryList extends Component {
     const { paginateCount, multiSelectOpen, multiSelectItem, selectedCountry } = this.state;
     const { callingCodeDivider, onSelectCountry, 
       open, filteredCountries, paginate, maxHeight,
-      handleMultiSelect, setCountryDropDown, style 
+      handleMultiSelect, setCountryDropDown,
+      style 
     } = this.props;
 
     return <ul
@@ -82,7 +83,8 @@ export default class CountryList extends Component {
       tabIndex={-1}
       ref={dropdown => setCountryDropDown(dropdown)}
       className='dropdown-menu country-dropdown'
-      style={{ ...style, display: 'block', backgroundColor: "white", zIndex: 101, overflowX: 'scroll', marginTop: 0, borderTopLeftRadius: 0, borderTopRightRadius: 0, maxHeight: open ? maxHeight : 0, boxShadow: open ? this.boxShadowStyle : null, borderWidth: open ? 1 : 0, padding: open ? '10px 0 10px 0' : 0, transition: 'all 0.2s ease', width: '100%', borderTop: 'none' }}>
+      style={{ ...style, display: 'block', backgroundColor: "white", zIndex: 101, overflowX: 'scroll', marginTop: 0,
+        borderTopLeftRadius: 0, borderTopRightRadius: 0, maxHeight: open ? maxHeight : 0, boxShadow: open ? this.boxShadowStyle : null, borderWidth: open ? 1 : 0, padding: open ? '10px 0 10px 0' : 0, transition: 'all 0.2s ease', width: '100%', borderTop: 'none' }}>
       {filteredCountries && filteredCountries.length > 0 && filteredCountries.map((country, index) => {
         const paginateTo = paginate && parseInt(paginate, 10) * paginateCount;
         if (index <= paginateTo) {
