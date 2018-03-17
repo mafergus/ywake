@@ -66,7 +66,11 @@ export default class CountryList extends Component {
 
   renderNoResults() {
     return <div 
-      style={{padding: 15, cursor: 'pointer', transition: this.bgColorTransitionStyle}}
+      style={{
+        padding: 15,
+        cursor: 'pointer', 
+        transition: this.bgColorTransitionStyle
+      }}
       className='dropdown-item'
     >
       {NO_RESULTS_MESSAGE}
