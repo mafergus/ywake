@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import createHistory from 'history/createBrowserHistory';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 // registerServiceWorker();
@@ -22,12 +23,14 @@ const history = createHistory()
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
-    <ConnectedRouter history={history}>
-      <div style={{ height: "100%", width: "100%" }}>
-        <Route exact path="/" component={App}/>
-        <Route path="/admin" component={AdminPage}/>
-      </div>
-    </ConnectedRouter>
+    <MuiThemeProvider>
+      <ConnectedRouter history={history}>
+        <div style={{ height: "100%", width: "100%" }}>
+          <Route exact path="/" component={App}/>
+          <Route path="/admin" component={AdminPage}/>
+        </div>
+      </ConnectedRouter>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')
 );

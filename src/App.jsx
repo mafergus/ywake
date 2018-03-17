@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import './App.css';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -57,7 +56,7 @@ class App extends Component {
     const { phoneNumber, time } = this.state;
     const opts = { phoneNumber, time };
 
-    fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/createUser/', {
+    fetch('https://us-central1-ywake-4dedb.cloudfunctions.net/api/createUser/', {
       method: 'post',
       body: JSON.stringify(opts),
     })
@@ -151,9 +150,7 @@ function mapStateToProps(state, props) {
 class MaterialApp extends Component {
   render() {
     return <DocumentTitle title="Ywake">
-      <MuiThemeProvider>
-        <App browser={this.props.browser} />
-      </MuiThemeProvider>
+      <App browser={this.props.browser} />
     </DocumentTitle>;
   }
 }

@@ -17,12 +17,44 @@ app.use(cors({ origin: true }));
 
 // build multiple CRUD interfaces:
 // app.get('/news', (req, res) => {//...});
-app.post('/', (req, res) => { doCreateUser(req, res) });
-app.get('/testing', (req, res) => { res.send("THIS IS A PLACEHOLDER GET RESPONSE") });
+app.post('/createUser/', (req, res) => { doCreateUser(req, res) });
+app.post('/addQuote/', (req, res) => { doAddQuote(req, res) });
 // app.put('/:id', (req, res) => {//...});
 // app.delete('/:id', (req, res) => {//...});
 
-exports.createUser = functions.https.onRequest(app);
+exports.api = functions.https.onRequest(app);
+
+function doAddQuote(req, res) {
+  console.log("req.body: ", req.body)
+  const jsonBody = JSON.parse(req.body);
+
+  if (jsonBody.hasOwnProperty("author") && jsonBody.hasOwnProperty("text")) {
+    const { author, text } = jsonBody;
+
+    return admin.database().ref('quotes/count').once('value').then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      throw new Error("Well that's extra strange");
+    })
+    .then(quoteCount => {
+      console.log("Quote count before: ", quoteCount);
+      const newQuoteCount = quoteCount+1;
+      const countPromise = admin.database().ref('quotes/count').set(newQuoteCount);
+      const quotePromise = admin.database().ref('quotes/' + newQuoteCount).set({
+        author,
+        text: `"${text}"`
+      });
+      return Promise.all([countPromise, quotePromise]);
+    })
+    .then(() => {
+      return res.send({ status: "Success!" });
+    })
+    .catch(err => res.send({ status: err }));
+  }
+
+  return res.send({ status: "Vague Error" });
+}
 
 function doCreateUser(req, res) {
   console.log("req.body: ", req.body)
