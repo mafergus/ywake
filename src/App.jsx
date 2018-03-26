@@ -89,7 +89,7 @@ class App extends Component {
 
         <Col
           md={11}
-          lg={1}
+          lg={2}
           style={{ backgroundColor: "white", height: "inherit", borderRightStyle: "solid",
             borderRightWidth: 1, borderRightColor: lightGray, marginBottom: browser.lessThan.large ? 5 : 0 }}
         >

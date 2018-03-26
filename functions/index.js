@@ -12,11 +12,7 @@ const client = require('twilio')(accountSid, authToken);
 admin.initializeApp(functions.config().firebase);
 
 const app = express();
-// Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
-
-// build multiple CRUD interfaces:
-// app.get('/news', (req, res) => {//...});
 app.post('/createUser/', (req, res) => { doCreateUser(req, res) });
 app.post('/addQuote/', (req, res) => { doAddQuote(req, res) });
 // app.put('/:id', (req, res) => {//...});
