@@ -11,6 +11,7 @@ import DocumentTitle from 'react-document-title';
 import { lightGray } from './colors';
 import { Android } from './Icons';
 import { connect } from "react-redux";
+import { Helmet } from 'react-helmet';
 
 const items = [];
 items.push(<MenuItem value={0} key={0} primaryText={`12:00am UTC`} />);
@@ -127,6 +128,9 @@ class App extends Component {
 
     return (
       <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-3" }}>
+        <Helmet>
+        <meta name="google-site-verification" content="-0xiTHqkrvvl3UFVst-NYN_b46hWLFvRvt7h5duuFnc" />
+        </Helmet>
         <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", 
           marginTop: browser.lessThan.large ? 40 : 160 }}>
           Discover your daily inspiration.
