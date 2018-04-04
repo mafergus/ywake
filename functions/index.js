@@ -24,19 +24,47 @@ exports.api = functions.https.onRequest(app);
 
 function doHandleIncoming(req, res) {
   console.log("GOT INCOMING req.body: ", req.body);
-  const jsonBody = JSON.parse(req.body);
-  const message = jsonBody.Body;
-  console.log("Got jsonBody.Body: ", jsonBody.Body);
+  // const jsonBody = JSON.parse(req.body);
+  const message = req.body.Body;
+  console.log("Got message: ", message);
   const twiml = new MessagingResponse();
+  const sender = req.body.From;
 
-  if (message === "OUT") {
-    twiml.message('We\'re sorry to see you go! Sign up again any time at inspire.ywake.com');
+  if (message.toLowerCase() === 'out') {
+    return admin.database().ref('users')
+    .orderByChild('phoneNumber')
+    .equalTo(sender)
+    .once('value')
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        console.log("FOUND THE USER! snapshot.val(): ", snapshot.val());
+        const user = snapshot.val();
+        return Object.keys(user)[0];
+      } else {
+        throw new Error("No such user!");
+      }
+    })
+    .then(userId => {
+      console.log("Saying goodbye to id: ", userId, " number: ", sender);
+      return admin.database().ref('users/' + userId + '/time').set(-1);
+    })
+    .then(() => {
+      twiml.message('We\'re sorry to see you go! Sign up again any time at inspire.ywake.com');
+      res.writeHead(200, {'Content-Type': 'text/xml'});
+      res.end(twiml.toString());
+      return res;
+    })
+    .catch(err => {
+      console.log("Oops! Something went wrong: ", err);
+    });
   } else {
     twiml.message('Sorry, we didn\'t understand that');
   }
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
+
+  return res;
 }
 
 function doAddQuote(req, res) {
