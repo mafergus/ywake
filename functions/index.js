@@ -8,6 +8,7 @@ const express = require('express');
 const accountSid = 'ACa2c223eafd99f3f430296ea346ea63ec';
 const authToken = '4670e436d6461e314cfe2e38102940f7';
 const client = require('twilio')(accountSid, authToken);
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 admin.initializeApp(functions.config().firebase);
 
@@ -15,10 +16,28 @@ const app = express();
 app.use(cors({ origin: true }));
 app.post('/createUser/', (req, res) => { doCreateUser(req, res) });
 app.post('/addQuote/', (req, res) => { doAddQuote(req, res) });
+app.post('/handleIncoming/', (req, res) => { doHandleIncoming(req, res) });
 // app.put('/:id', (req, res) => {//...});
 // app.delete('/:id', (req, res) => {//...});
 
 exports.api = functions.https.onRequest(app);
+
+function doHandleIncoming(req, res) {
+  console.log("GOT INCOMING req.body: ", req.body);
+  const jsonBody = JSON.parse(req.body);
+  const message = jsonBody.Body;
+  console.log("Got jsonBody.Body: ", jsonBody.Body);
+  const twiml = new MessagingResponse();
+
+  if (message === "OUT") {
+    twiml.message('We\'re sorry to see you go! Sign up again any time at inspire.ywake.com');
+  } else {
+    twiml.message('Sorry, we didn\'t understand that');
+  }
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+}
 
 function doAddQuote(req, res) {
   console.log("req.body: ", req.body)
