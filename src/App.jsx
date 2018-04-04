@@ -23,10 +23,14 @@ for (let i=1; i < 12; i++) {
   items.push(<MenuItem value={i+12} key={i+12} primaryText={`${i}:00pm UTC`} />);
 }
 
-class App extends Component {
+export default class App extends Component {
 
   static propTypes = {
-    browser: PropTypes.object.isRequired,
+    browser: PropTypes.object,
+  };
+
+  static defaultProps = {
+    browser: { lessThan: { large: false } },
   };
 
   constructor(props) {
@@ -159,4 +163,4 @@ class MaterialApp extends Component {
   }
 }
 
-export default connect(mapStateToProps)(MaterialApp);
+// export default connect(mapStateToProps)(MaterialApp);

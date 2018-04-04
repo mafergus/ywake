@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "es5-shim": "^4.5.10",
+    "es6-shim": "^0.35.3",
     "fluid-react": "0.0.41",
     "history": "^4.7.2",
     "material-ui": "^0.20.0",

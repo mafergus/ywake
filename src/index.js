@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'es5-shim';
+import 'es6-shim';
 import './index.css';
 import App from './App';
 import AdminPage from './AdminPage';
@@ -20,18 +22,22 @@ const history = createHistory()
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
 
+// ReactDOM.render(
+//   <Provider store={store}>
+//     { /* ConnectedRouter will use the store from Provider automatically */ }
+//     <MuiThemeProvider>
+//       <ConnectedRouter history={history}>
+//         <div style={{ height: "100%", width: "100%" }}>
+//           <Route exact path="/" component={App}/>
+//           <Route path="/admin" component={AdminPage}/>
+//         </div>
+//       </ConnectedRouter>
+//     </MuiThemeProvider>
+//   </Provider>,
+//   document.getElementById('root')
+// );
 ReactDOM.render(
-  <Provider store={store}>
-    { /* ConnectedRouter will use the store from Provider automatically */ }
-    <MuiThemeProvider>
-      <ConnectedRouter history={history}>
-        <div style={{ height: "100%", width: "100%" }}>
-          <Route exact path="/" component={App}/>
-          <Route path="/admin" component={AdminPage}/>
-        </div>
-      </ConnectedRouter>
-    </MuiThemeProvider>
-  </Provider>,
+  <MuiThemeProvider><App /></MuiThemeProvider>,
   document.getElementById('root')
 );
 registerServiceWorker();
