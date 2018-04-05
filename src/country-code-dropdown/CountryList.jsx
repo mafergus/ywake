@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import FlagIcon from 'react-flag-kit/lib/FlagIcon';
 import { MISSING_FLAGS } from './Constants';
 import CountryListItem from "./CountryListItem";
 

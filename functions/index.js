@@ -17,10 +17,16 @@ app.use(cors({ origin: true }));
 app.post('/createUser/', (req, res) => { doCreateUser(req, res) });
 app.post('/addQuote/', (req, res) => { doAddQuote(req, res) });
 app.post('/handleIncoming/', (req, res) => { doHandleIncoming(req, res) });
+app.post('/logError/', (req, res) => { logError(req, res) });
 // app.put('/:id', (req, res) => {//...});
 // app.delete('/:id', (req, res) => {//...});
 
 exports.api = functions.https.onRequest(app);
+
+function logError(req, res) {
+  console.log("GOT INCOMING req: ", req, " req.body: ", req.body);
+  return null;
+}
 
 function doHandleIncoming(req, res) {
   console.log("GOT INCOMING req.body: ", req.body);

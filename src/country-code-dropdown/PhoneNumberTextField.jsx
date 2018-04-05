@@ -7,7 +7,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 import uuid from 'uuid';
 import TextField from 'material-ui/TextField';
 import CountryList from './CountryList';
-import FlagIcon from 'react-flag-kit/lib/FlagIcon';
+import FlagIcon from '../FlagIcon';
 import { MISSING_FLAGS } from './Constants';
 import { lightGray } from '../colors';
 
@@ -344,7 +344,7 @@ export default class PhoneNumberTextField extends Component {
               onClick={(e) => this.onOpenHandler(e)}>
               {flag &&
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <FlagIcon code={flag} size={24} className='flag-icon' />
+                  <FlagIcon code={flag} size={24} />
                   <span style={{ fontSize: "1.2em", marginLeft: 10 }}>
                     {countryCode}
                   </span>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import { MISSING_FLAGS } from './Constants';
-import FlagIcon from 'react-flag-kit/lib/FlagIcon';
+import FlagIcon from '../FlagIcon';
 
 export default class CountryListItem extends Component {
 
