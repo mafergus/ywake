@@ -9,7 +9,6 @@ import PhoneNumberTextField from './country-code-dropdown/PhoneNumberTextField';
 import { Col, Row } from 'fluid-react';
 import DocumentTitle from 'react-document-title';
 import { lightGray } from './colors';
-import { Android } from './Icons';
 import { connect } from "react-redux";
 import { Helmet } from 'react-helmet';
 
@@ -23,7 +22,7 @@ for (let i=1; i < 12; i++) {
   items.push(<MenuItem value={i+12} key={i+12} primaryText={`${i}:00pm UTC`} />);
 }
 
-export default class App extends Component {
+class App extends Component {
 
   static propTypes = {
     browser: PropTypes.object,
@@ -102,7 +101,6 @@ export default class App extends Component {
             style={{ width: 150, height: 50, borderRadius: 2, paddingLeft: 0, paddingRight: 0 }}
             labelStyle={{ padding: 0 }}
             iconStyle={{ color: "black" }}
-            iconButton={Android}
             maxHeight={300}
             value={this.state.time}
             onChange={this.handleChange}
@@ -133,7 +131,9 @@ export default class App extends Component {
     return (
       <div className="hero" style={{ height: "100%", width: "100%", display: "flex", flexDirection: "column", zIndex: "-3" }}>
         <Helmet>
-        <meta name="google-site-verification" content="-0xiTHqkrvvl3UFVst-NYN_b46hWLFvRvt7h5duuFnc" />
+          <meta name="description" content="Inspirational motivational inspiring motivating daily quotes" />
+          <meta name="keywords" content="inspirational quotes, life quotes, motivational quotes, quote of the day, encouraging quotes, famous quotes, inspirational quotations, positive quotes" />
+          <meta name="google-site-verification" content="-0xiTHqkrvvl3UFVst-NYN_b46hWLFvRvt7h5duuFnc" />
         </Helmet>
         <h1 style={{ fontSize: "2.3em", fontStyle: "normal", color: "white", width: "100%", textAlign: "center", 
           marginTop: browser.lessThan.large ? 40 : 160 }}>
@@ -157,10 +157,10 @@ function mapStateToProps(state, props) {
 
 class MaterialApp extends Component {
   render() {
-    return <DocumentTitle title="Ywake">
+    return <DocumentTitle title="Ywake - Discover your Daily Inspiration">
       <App browser={this.props.browser} />
     </DocumentTitle>;
   }
 }
 
-// export default connect(mapStateToProps)(MaterialApp);
+export default connect(mapStateToProps)(MaterialApp);

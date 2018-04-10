@@ -22,22 +22,22 @@ const history = createHistory()
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
 
-// ReactDOM.render(
-//   <Provider store={store}>
-//     { /* ConnectedRouter will use the store from Provider automatically */ }
-//     <MuiThemeProvider>
-//       <ConnectedRouter history={history}>
-//         <div style={{ height: "100%", width: "100%" }}>
-//           <Route exact path="/" component={App}/>
-//           <Route path="/admin" component={AdminPage}/>
-//         </div>
-//       </ConnectedRouter>
-//     </MuiThemeProvider>
-//   </Provider>,
-//   document.getElementById('root')
-// );
 ReactDOM.render(
-  <MuiThemeProvider><App /></MuiThemeProvider>,
+  <Provider store={store}>
+    { /* ConnectedRouter will use the store from Provider automatically */ }
+    <MuiThemeProvider>
+      <ConnectedRouter history={history}>
+        <div style={{ height: "100%", width: "100%" }}>
+          <Route exact path="/" component={App}/>
+          <Route path="/admin" component={AdminPage}/>
+        </div>
+      </ConnectedRouter>
+    </MuiThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
+// ReactDOM.render(
+//   <MuiThemeProvider><App /></MuiThemeProvider>,
+//   document.getElementById('root')
+// );
 registerServiceWorker();

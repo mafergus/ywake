@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export function Android(props) {
   return <svg viewBox="0 0 24 24" fill="green">

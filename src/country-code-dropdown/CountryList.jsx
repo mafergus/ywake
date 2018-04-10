@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { MISSING_FLAGS } from './Constants';
 import CountryListItem from "./CountryListItem";
 
 const NO_RESULTS_MESSAGE = 'No results available';
