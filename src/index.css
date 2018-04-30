@@ -18,8 +18,13 @@ h1 {
 }
 
 .hero {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-image: url("images/person-and-stars-small.jpg");
+  background-color: #110F15;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

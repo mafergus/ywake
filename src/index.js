@@ -12,6 +12,7 @@ import createHistory from 'history/createBrowserHistory';
 import { Route } from 'react-router';
 import { ConnectedRouter } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { createMuiTheme } from 'material-ui/styles';
 
 // ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 // registerServiceWorker();
@@ -22,10 +23,12 @@ const history = createHistory()
 // Now you can dispatch navigation actions from anywhere!
 // store.dispatch(push('/foo'))
 
+const theme = createMuiTheme({});
+
 ReactDOM.render(
   <Provider store={store}>
     { /* ConnectedRouter will use the store from Provider automatically */ }
-    <MuiThemeProvider>
+    <MuiThemeProvider theme={theme}>
       <ConnectedRouter history={history}>
         <div style={{ height: "100%", width: "100%" }}>
           <Route exact path="/" component={App}/>

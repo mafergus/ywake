@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 export default class AdminPage extends Component {
 
@@ -62,8 +62,9 @@ export default class AdminPage extends Component {
         onChange={(event) => this.setState({ text: event.target.value })}
       />
       <br/>
-      <RaisedButton
+      <Button
         style={{ marginTop: 50 }}
+        variant="raised"
         label="Submit"
         primary={true}
         onClick={this.submit}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autoBind from 'react-autobind';
 import countries from 'country-data';
-import { AsYouTypeFormatter, PhoneNumberUtil, PhoneNumberFormat } from 'google-libphonenumber';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 import escapeStringRegexp from 'escape-string-regexp';
 import uuid from 'uuid';
 import TextField from 'material-ui/TextField';
@@ -14,6 +14,8 @@ import { lightGray } from '../colors';
 export default class PhoneNumberTextField extends Component {
 
   static propTypes = {
+    error: PropTypes.bool,
+    errorText: PropTypes.string,
     removeToken: PropTypes.oneOfType([
       PropTypes.element,
       PropTypes.string
@@ -32,10 +34,13 @@ export default class PhoneNumberTextField extends Component {
     callingCodeMessage: PropTypes.string,
     catchAllMessage: PropTypes.string,
     inputClassName: PropTypes.string,
+    style: PropTypes.class,
     validMessage: PropTypes.string
   };
 
   static defaultProps = {
+    error: false,
+    errorText: "",
     removeToken: <span>&times;</span>,
     paginate: 50,
     placeholder: 'Search for a calling code by country name',
@@ -44,6 +49,7 @@ export default class PhoneNumberTextField extends Component {
     maxLengthMessage: 'Too long to be a valid phone number',
     callingCodeMessage: 'Please select a valid country code',
     catchAllMessage: 'Not a valid phone number',
+    style: {},
     validMessage: 'This phone number is valid',
   };
 
@@ -127,6 +133,21 @@ export default class PhoneNumberTextField extends Component {
 
       return this.formatValidation(false, '', callingCodeMessage, null, null);
     }
+  }
+
+  validatePhoneNumber(phoneNumber) {
+    /*
+    Phone number validation using google-libphonenumber
+    */
+    let valid = false;
+    try {
+      const phoneUtil = PhoneNumberUtil.getInstance();
+      valid =  phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber));
+    } catch(e) {
+      valid = false;
+    }
+
+    return valid;
   }
 
   setDropDown = dropdown => { this.countryDropdown = dropdown };
@@ -223,8 +244,9 @@ export default class PhoneNumberTextField extends Component {
         this.multiSelect.style.zIndex = '101'
       });
     }
+
     const callingCode = multiSelect || (countryCallingCodes && countryCallingCodes[0]);
-    const validation = this.validateNumber(alpha2, phoneNumber);
+    this.validatePhoneNumber(alpha2+phoneNumber);
 
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
       this.cancelMultiSelect();
@@ -278,12 +300,6 @@ export default class PhoneNumberTextField extends Component {
     this.mouseDownOnMenu = false
   }
 
-  propChangeHandler (props, mounted, reset) {
-    const { selectedCountry } = this.state;
-    const { defaultValue } = props;
-    const countryNotSelected = Object.keys(selectedCountry).length < 1 && selectedCountry !== 'unknown';
-  }
-
   componentWillReceiveProps (nextProps) {
     const { reset, defaultValue } = nextProps;
     if (reset || (this.props.defaultValue !== defaultValue)) {
@@ -293,7 +309,6 @@ export default class PhoneNumberTextField extends Component {
 
   componentDidMount () {
     window.addEventListener('mousedown', this._pageClick);
-    this.propChangeHandler(this.props, true);
     this.setState({ filteredCountries: this.getPreferredCountries() });
   }
 
@@ -308,7 +323,7 @@ export default class PhoneNumberTextField extends Component {
 
   render () {
     const { open, filteredCountries, selectedCountry, phoneNumber, searchTerm, message, paginateCount } = this.state;
-    const { removeToken, placeholder, disabled, inputClassName, paginate } = this.props;
+    const { removeToken, error, placeholder, disabled, inputClassName, paginate, errorText, style } = this.props;
     const inputID = uuid.v4();
     const flag = this.getFlag(selectedCountry);
     let countryCode = "+1";
@@ -319,8 +334,15 @@ export default class PhoneNumberTextField extends Component {
 
     return (
       <div
-        style={{ position: 'relative', height: "inherit", boxShadow: open ? this.boxShadowStyle : null,
-          borderRightStyle: "solid", borderRightWidth: 1, borderRightColor: lightGray }}
+        style={{ 
+          position: 'relative',
+          height: "inherit",
+          boxShadow: open ? this.boxShadowStyle : null,
+          borderRightStyle: "solid",
+          borderRightWidth: 1,
+          borderRightColor: lightGray,
+          ...style
+        }}
         className={`intl-phone-input${open ? ' open' : ''}`}
         onMouseDown={() => this.mouseDownHandler()}
         onMouseUp={() => this.mouseUpHandler()}>
@@ -365,16 +387,20 @@ export default class PhoneNumberTextField extends Component {
             {message}. {(Object.keys(selectedCountry).length > 0 && selectedCountry.name) ? `You have entered a calling code for ${selectedCountry.name}.` : ''}
           </div>
           <TextField
-            style={{ borderBottomLeftRadius: open ? 0 : null, borderBottomRightRadius: open ? 0 : null, marginLeft: 10, marginRight: 38 }}
+            style={{
+              width: "100%",
+              borderBottomLeftRadius: open ? 0 : null,
+              borderBottomRightRadius: open ? 0 : null,
+              marginLeft: 10,
+              marginRight: 38
+            }}
+            error={error}
+            helperText={error ? errorText : ''}
             id={inputID}
-            hintText="555-555-5555"
-            hintStyle={{ color: lightGray}}
             autoComplete={'off'}
             aria-describedby={'validation-info'}
-            type='text'
-            ref={(input) => { this.phoneInput = input }}
             className={`form-control phone-input${inputClassName ? inputClassName : ''}`}
-            placeholder={open ? placeholder : ''}
+            placeholder={open ? '555-555-5555' : placeholder}
             onKeyDown={(e) => this.onKeyDown(e)}
             value={open ? searchTerm : phoneNumber}
             disabled={disabled}

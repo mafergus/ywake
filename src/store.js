@@ -2,7 +2,7 @@ import thunk from 'redux-thunk';
 import { createLogger } from "redux-logger";
 import { responsiveStoreEnhancer } from 'redux-responsive'; 
 import rootReducer from './rootReducer';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 
 const logger = createLogger();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

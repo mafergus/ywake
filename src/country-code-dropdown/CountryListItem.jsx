@@ -14,12 +14,14 @@ export default class CountryListItem extends Component {
     country: PropTypes.object.isRequired,
     onClick: PropTypes.func,
     index: PropTypes.number.isRequired,
-    isHovered: PropTypes.bool.isRequired,
-    isSelected: PropTypes.bool.isRequired,
+    isHovered: PropTypes.bool,
+    isSelected: PropTypes.bool,
   };
 
   static defaultProps = {
     onClick: null,
+    isHovered: false,
+    isSelected: false,
   };
   
   constructor() {
@@ -46,8 +48,8 @@ export default class CountryListItem extends Component {
   }
 
   render() {
-    const { selectedCountry, searchTerm, lastPreferred, tabbedIndex, hoverIndex } = this.state;
-    const { callingCodeDivider, country, index, isSelected, onClick } = this.props;
+    const { searchTerm, lastPreferred } = this.state;
+    const { callingCodeDivider, country, index, onClick } = this.props;
     const { name, alpha2, countryCallingCodes } = country;
 
     return <li

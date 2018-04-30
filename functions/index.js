@@ -121,7 +121,7 @@ function doCreateUser(req, res) {
       if (!snapshot.exists()) {
         return;
       }
-      throw new Error("user exists");
+      throw new Error("User exists!");
     })
     .then(() => {
       var newUserRef = admin.database().ref('users').push();
@@ -132,14 +132,19 @@ function doCreateUser(req, res) {
         nextQuote: 1,
       });
     })
-    .then(result => res.send({ status: "Success!" }))
-    .catch(err => res.send({ status: "Uh oh! There was an error! ", err }));
+    .then(() => admin.database().ref('users/count').once('value'))
+    .then(snapshot => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      }
+      throw new Error("Well that's extra strange");
+    })
+    .then(userCount => admin.database().ref('users/count').set(userCount+1))
+    .then(result => res.send({ status: "success" }))
+    .catch(err => res.send({ status: "error", error: err.toString() }));
   }
 
-  return res.send("Uh oh! Error");
-
-  // console.log("phoneNumber: " + req.body.phoneNumber + " time: " + req.body.time);
-
+  return res.send("Generic error");
 }
 
 function sendMessage(to, body) {

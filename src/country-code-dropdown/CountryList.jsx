@@ -14,7 +14,7 @@ export default class CountryList extends Component {
     ]),
     handleMultiSelect: PropTypes.func.isRequired,
     filteredCountries: PropTypes.array.isRequired,
-    multiSelect: PropTypes.object.isRequired,
+    multiSelect: PropTypes.object,
     onSelectCountry: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     paginate: PropTypes.number.isRequired,
@@ -103,6 +103,7 @@ export default class CountryList extends Component {
         const paginateTo = paginate && parseInt(paginate, 10) * paginateCount;
         if (index <= paginateTo) {
           return <CountryListItem
+            key={country.alpha2}
             callingCodeDivider={callingCodeDivider}
             country={country}
             selected={country.alpha2 === selectedCountry.alpha2}
