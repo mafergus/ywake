@@ -94,7 +94,7 @@ class App extends Component {
     // debugger;
     const { phoneNumber, time } = this.state;
     const number = phoneNumber.replace(/-/g, '');
-    const opts = { phoneNumber: number, time };
+    const opts = { phoneNumber: number, time: time + this.timezoneOffset };
     const isValid = this.validatePhoneNumber(number);
     if (!isValid) {
       this.setState({
