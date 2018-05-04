@@ -1,0 +1,3 @@
+2018-05-04T14:45:49.644Z - info: User function triggered, starting execution
+2018-05-04T14:45:49.646Z - info: Time now()  14
+2018-05-04T14:45:51.754Z - info: Execution took 2152 ms, finished with status: 'crash'

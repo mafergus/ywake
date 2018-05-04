@@ -160,7 +160,18 @@ function sendMessage(to, body) {
 
 function getMessageBody(quote) {
   return quote.text + " - " + quote.author + "\n\n" 
-    + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com. Opt out by replying OUT";
+    + "Your daily inspiration from Ywake. Find more inspiration at www.ywake.com. " 
+    + getPostFooter()
+}
+
+function getFooter() {
+  // will give either 0 or 1
+  const randomNum = getRandomInt(2);
+  return `Inspired? Reply "+1" to like a quote`;
+}
+
+function getPostFooter() {
+  return "Opt out by replying OUT";
 }
 
 exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => {
@@ -184,20 +195,38 @@ exports.hourly_job = functions.pubsub.topic('hourly-tick').onPublish((event) => 
           const quote = snapshot.val();
           console.log("Quote: ", quote);
 
-          sendMessage(user.phoneNumber, getMessageBody(quote));
-          return admin.database().ref('users/' + userId + "/nextQuote").set(user.nextQuote+1);
+          const messagePromise = sendMessage(user.phoneNumber, getMessageBody(quote));
+          const incrementCountPromise = incrementQuote(user.nextQuote);
+          const incrementQuotePromise = admin.database().ref('users/' + userId + "/nextQuote").set(user.nextQuote+1);
+          return Promise.all([messagePromise, incrementCountPromise, incrementQuotePromise]);
         }
-        return "Couldn't get a quote!";
+        throw new Error("Couldn't get a quote!");
       })
       .catch(err => {
         console.log(err);
       });
     });
 
-    return
+    return;
   })
   .catch(err => {
     console.log(err);
     return;
   });
 });
+
+function incrementQuote(quoteId) {
+  return admin.database().ref('quotes/' + quoteId + '/sentCount').once('value')
+  .then(snapshot => {
+    if (snapshot.exists()) {
+      return admin.database().ref('quotes/' + quoteId + '/sentCount').set(snapshot.val()+1);
+    } else {
+      return admin.database().ref('quotes/' + quoteId + '/sentCount').set(1);
+    }
+  });
+}
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
