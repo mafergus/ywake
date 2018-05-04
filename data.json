@@ -1,0 +1,280 @@
+{
+  "quotes" : {
+    "1" : {
+      "author" : "Seneca",
+      "text" : "\"We suffer more often in imagination than in reality.\""
+    },
+    "2" : {
+      "author" : "Martin Luther King",
+      "text" : "\"Injustice anywhere is a threat to justice everywhere.\""
+    },
+    "3" : {
+      "author" : "Vince Lombardi",
+      "text" : "\"Perfection is not attainable, but if we chase perfection we can catch excellence.\""
+    },
+    "4" : {
+      "author" : "Dr. Seuss",
+      "text" : "\"Don't cry because it's over, smile because it happened.\""
+    },
+    "5" : {
+      "author" : "Oscar Wilde",
+      "sentCount" : 1,
+      "text" : "\"Be yourself; everyone else is already taken.\""
+    },
+    "6" : {
+      "author" : "Seneca",
+      "text" : "\"How does it help…to make troubles heavier by bemoaning them?\""
+    },
+    "7" : {
+      "author" : "Bernard M. Baruch",
+      "text" : "\"Be who you are and say what you feel, because those who mind don't matter, and those who matter don't mind.\""
+    },
+    "8" : {
+      "author" : "William W. Purkey",
+      "sentCount" : 1,
+      "text" : "\"You've gotta dance like there's nobody watching, Love like you'll never be hurt, Sing like there's nobody listening, And live like it's heaven on earth.\""
+    },
+    "9" : {
+      "author" : "Mae West",
+      "text" : "\"You only live once, but if you do it right, once is enough.\""
+    },
+    "10" : {
+      "author" : "Seneca",
+      "text" : "\"It does not matter what you bear, but how you bear it.\""
+    },
+    "11" : {
+      "author" : "Robert Frost",
+      "text" : "\"In three words I can sum up everything I've learned about life: it goes on.\""
+    },
+    "12" : {
+      "author" : "Seneca",
+      "text" : "\"We should not, like sheep, follow the herd of creatures in front of us, making our way where others go, not where we ought to go.\""
+    },
+    "13" : {
+      "author" : "Paul Eldridge",
+      "text" : "\"A man’s character is most evident by how he treats those who are not in a position either to retaliate or reciprocate.\""
+    },
+    "14" : {
+      "author" : "Mark Twain",
+      "text" : "\"If you tell the truth, you don't have to remember anything.\""
+    },
+    "15" : {
+      "author" : "Maya Angelou",
+      "text" : "\"I've learned that people will forget what you said, people will forget what you did, but people will never forget how you made them feel.\""
+    },
+    "16" : {
+      "author" : "Mahatma Gandhi",
+      "text" : "\"Live as if you were to die tomorrow. Learn as if you were to live forever.\""
+    },
+    "17" : {
+      "author" : "Oscar Wilde",
+      "text" : "\"To live is the rarest thing in the world. Most people exist, that is all.\""
+    },
+    "18" : {
+      "author" : "Seneca",
+      "text" : "\"To bear trials with a calm mind robs misfortune of its strength and burden.\""
+    },
+    "19" : {
+      "author" : "Martin Luther King Jr",
+      "text" : "\"Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.\""
+    },
+    "20" : {
+      "author" : "Ralph Waldo Emerson",
+      "text" : "\"To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.\""
+    },
+    "21" : {
+      "author" : "Seneca",
+      "text" : "\"He who indulges in empty fears earns himself real ones.\""
+    },
+    "22" : {
+      "author" : "Aristotle",
+      "text" : "\"It is during our darkest moments that we must focus to see the light.\""
+    },
+    "23" : {
+      "author" : "Joseph Campbell",
+      "text" : "\"We must let go of the life we have planned, so as to accept the one that is waiting for us.\""
+    },
+    "24" : {
+      "author" : "Theodore Roosevelt",
+      "sentCount" : 1,
+      "text" : "\"Believe you can and you're halfway there.\""
+    },
+    "25" : {
+      "author" : "Jim Rohn",
+      "text" : "\"Happiness is not something you postpone for the future; it is something you design for the present.\""
+    },
+    "26" : {
+      "author" : "Kevyn Aucoin",
+      "text" : "\"Today I choose life. Every morning when I wake up I can choose joy, happiness, negativity, pain... To feel the freedom that comes from being able to continue to make mistakes and choices - today I choose to feel life, not to deny my humanity but embrace it.\""
+    },
+    "27" : {
+      "author" : "Dalai Lama",
+      "text" : "\"In the practice of tolerance, one's enemy is the best teacher.\""
+    },
+    "28" : {
+      "author" : "Norman Vincent Peale",
+      "text" : "\"Change your thoughts and you change your world.\""
+    },
+    "29" : {
+      "author" : "Dalai Lama",
+      "text" : "\"We can never obtain peace in the outer world until we make peace with ourselves.\""
+    },
+    "30" : {
+      "author" : "Steve Jobs",
+      "text" : "\"Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle. As with all matters of the heart, you'll know when you find it.\""
+    },
+    "31" : {
+      "author" : "Maya Angelou",
+      "text" : "\"My mission in life is not merely to survive, but to thrive; and to do so with some passion, some compassion, some humor, and some style.\""
+    },
+    "32" : {
+      "author" : "William Shakespeare",
+      "text" : "\"We know what we are, but know not what we may be.\""
+    },
+    "33" : {
+      "author" : "Robert Louis Stevenson",
+      "text" : "\"Don't judge each day by the harvest you reap but by the seeds that you plant.\""
+    },
+    "34" : {
+      "author" : "Earl Nightingale",
+      "text" : "\"All you need is the plan, the road map, and the courage to press on to your destination.\""
+    },
+    "35" : {
+      "author" : "Ralph Waldo Emerson",
+      "text" : "\"What lies behind you and what lies in front of you, pales in comparison to what lies inside of you.\""
+    },
+    "36" : {
+      "author" : "Paul Bear Bryant",
+      "text" : "\"If you believe in yourself and have dedication and pride - and never quit, you'll be a winner. The price of victory is high but so are the rewards.\""
+    },
+    "37" : {
+      "author" : "Robin Williams",
+      "text" : "\"No matter what people tell you, words and ideas can change the world.\""
+    },
+    "38" : {
+      "author" : "Joseph Campbell",
+      "text" : "\"A hero is someone who has given his or her life to something bigger than oneself.\""
+    },
+    "39" : {
+      "author" : "Tony Robbins",
+      "text" : "\"It is in your moments of decision that your destiny is shaped.\""
+    },
+    "40" : {
+      "author" : "Muhammad Ali",
+      "text" : "\"I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'\""
+    },
+    "41" : {
+      "author" : "Buddha",
+      "text" : "\"Thousands of candles can be lighted from a single candle, and the life of the candle will not be shortened. Happiness never decreases by being shared.\""
+    },
+    "42" : {
+      "author" : "Nido Qubein",
+      "text" : "\"Your present circumstances don't determine where you can go; they merely determine where you start.\""
+    },
+    "43" : {
+      "author" : "Lao Tzu",
+      "text" : "\"To the mind that is still, the whole universe surrenders.\""
+    },
+    "44" : {
+      "author" : "Vince Lombardi",
+      "text" : "\"The measure of who we are is what we do with what we have.\""
+    },
+    "45" : {
+      "author" : "George Eliot",
+      "text" : "\"It is never too late to be what you might have been.\""
+    },
+    "46" : {
+      "author" : "Nathaniel Hawthorne",
+      "text" : "\"Happiness is a butterfly, which when pursued, is always just beyond your grasp, but which, if you will sit down quietly, may alight upon you.\""
+    },
+    "47" : {
+      "author" : "Robert Frost",
+      "text" : "\"Two roads diverged in a wood and I - I took the one less traveled by, and that has made all the difference.\""
+    },
+    "48" : {
+      "author" : "Isaac Newton",
+      "text" : "\"If I have seen further than others, it is by standing upon the shoulders of giants.\""
+    },
+    "49" : {
+      "author" : "Og Mandino",
+      "text" : "\"I will love the light for it shows me the way, yet I will endure the darkness because it shows me the stars.\""
+    },
+    "50" : {
+      "author" : "Anne Frank",
+      "text" : "\"How wonderful it is that nobody need wait a single moment before starting to improve the world.\""
+    },
+    "51" : {
+      "author" : "Bruce Lee",
+      "sentCount" : 2,
+      "text" : "\"If you always put limits on everything you do, physical or anything else. It will spread into your work and into your life. There are no limits. There are only plateaus, and you must not stay there, you must go beyond them.\""
+    },
+    "52" : {
+      "author" : "Gustave Flaubert",
+      "sentCount" : 1,
+      "text" : "\"I believe that if one always looked at the skies, one would end up with wings.\""
+    },
+    "53" : {
+      "author" : "Theodore Roosevelt",
+      "sentCount" : 1,
+      "text" : "\"With self-discipline most anything is possible.\""
+    },
+    "54" : {
+      "author" : "Gilbert K. Chesterton",
+      "text" : "\"To love means loving the unlovable. To forgive means pardoning the unpardonable. Faith means believing the unbelievable. Hope means hoping when everything seems hopeless.\""
+    },
+    "55" : {
+      "author" : "Jack Dempsey",
+      "text" : "\"A champion is someone who gets up when he can't.\""
+    },
+    "56" : {
+      "author" : "Arthur Helps",
+      "text" : "\"Keep your feet on the ground, but let your heart soar as high as it will. Refuse to be average or to surrender to the chill of your spiritual environment.\""
+    },
+    "57" : {
+      "author" : "John Muir",
+      "text" : "\"The power of imagination makes us infinite.\""
+    },
+    "58" : {
+      "author" : "Steve Jobs",
+      "text" : "\"Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose. You are already naked. There is no reason not to follow your heart.\""
+    },
+    "59" : {
+      "author" : "Walt Disney",
+      "text" : "\"The way to get started is to quit talking and begin doing.\""
+    },
+    "60" : {
+      "author" : "Winston Churchill",
+      "text" : "\"The pessimist sees difficulty in every opportunity. The optimist sees opportunity in every difficulty.\""
+    },
+    "61" : {
+      "author" : "Will Rogers",
+      "text" : "\"Don’t let yesterday take up too much of today.\""
+    },
+    "62" : {
+      "author" : "Vince Lombardi",
+      "text" : "\"It’s not whether you get knocked down, it’s whether you get up.\""
+    },
+    "63" : {
+      "author" : "Rob Siltanen",
+      "text" : "\"People who are crazy enough to think they can change the world, are the ones who do.\""
+    },
+    "64" : {
+      "author" : "Maya Angelou",
+      "text" : "\"We may encounter many defeats but we must not be defeated.\""
+    },
+    "65" : {
+      "author" : "Hellen Keller",
+      "text" : "\"Security is mostly an illusion. Life is either a daring adventure or nothing.\""
+    },
+    "count" : 65
+  },
+  "users" : {
+    "-L7hM5HgBFhSdTcs-fNb" : {
+      "nextQuote" : 1,
+      "phoneNumber" : "+16507961513",
+      "time" : 0
+    },
+    "count" : 1
+  }
+}
+
