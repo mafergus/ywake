@@ -26,7 +26,6 @@ export default class PhoneNumberTextField extends Component {
       PropTypes.string
     ]),
     paginate: PropTypes.number,
-    disabled: PropTypes.bool,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     minLengthMessage: PropTypes.string,
@@ -44,7 +43,6 @@ export default class PhoneNumberTextField extends Component {
     removeToken: <span>&times;</span>,
     paginate: 50,
     placeholder: 'Search for a calling code by country name',
-    disabled: false,
     minLengthMessage: 'Too short to be a valid phone number',
     maxLengthMessage: 'Too long to be a valid phone number',
     callingCodeMessage: 'Please select a valid country code',
@@ -251,7 +249,7 @@ export default class PhoneNumberTextField extends Component {
     this.setState({ selectedCountry: country, callingCode, open: false, tabbedIndex: -1, searchTerm: searchTerm.trim() }, () => {
       this.cancelMultiSelect();
       if (!mounted) {
-        this.phoneInput.focus();
+        // this.phoneInput.focus();
         if (onChange) {
           onChange(callingCode, phoneNumber);
         }
@@ -262,42 +260,39 @@ export default class PhoneNumberTextField extends Component {
   pageClick () {
     if (!this.mouseDownOnMenu) {
       this.setState({ open: false, tabbedIndex: -1 }, () => {
-        this.countryDropdown.scrollTop = 0
-      })
+        this.countryDropdown.scrollTop = 0;
+      });
       this.cancelMultiSelect();
     }
   }
 
   onOpenHandler () {
-    const { disabled } = this.props
-    if (!disabled) {
-      const { open } = this.state
-      this.setState({ open: !open })
-      if (!open) {
-        this.phoneInput.focus()
-      } else {
-        this.setState({ tabbedIndex: -1 })
-      }
+    const { open } = this.state;
+    this.setState({ open: !open });
+    if (!open) {
+      // this.phoneInput.focus();
+    } else {
+      this.setState({ tabbedIndex: -1 });
     }
   }
 
   clearInput () {
-    const { open } = this.state
+    const { open } = this.state;
     if (open) {
-      this.setState({ searchTerm: '', filteredCountries: this.getPreferredCountries(), multiSelectItem: [], multiSelectOpen: false })
+      this.setState({ searchTerm: '', filteredCountries: this.getPreferredCountries(), multiSelectItem: [], multiSelectOpen: false });
     } else {
-      this.setState({ phoneNumber: '' })
-      this.cancelMultiSelect()
+      this.setState({ phoneNumber: '' });
+      this.cancelMultiSelect();
     }
-    this.phoneInput.focus()
+    // this.phoneInput.focus();
   }
 
   mouseDownHandler () {
-    this.mouseDownOnMenu = true
+    this.mouseDownOnMenu = true;
   }
 
   mouseUpHandler () {
-    this.mouseDownOnMenu = false
+    this.mouseDownOnMenu = false;
   }
 
   componentWillReceiveProps (nextProps) {
@@ -323,7 +318,7 @@ export default class PhoneNumberTextField extends Component {
 
   render () {
     const { open, filteredCountries, selectedCountry, phoneNumber, searchTerm, message, paginateCount } = this.state;
-    const { removeToken, error, placeholder, disabled, inputClassName, paginate, errorText, style } = this.props;
+    const { removeToken, error, placeholder, inputClassName, paginate, errorText, style } = this.props;
     const inputID = uuid.v4();
     const flag = this.getFlag(selectedCountry);
     let countryCode = "+1";
@@ -359,9 +354,8 @@ export default class PhoneNumberTextField extends Component {
             <button
               type='button'
               tabIndex={0}
-              disabled={disabled}
               aria-hidden
-              style={{ height: "100%", border: "none", borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: disabled ? null : 'pointer' }}
+              style={{ height: "100%", border: "none", borderBottomLeftRadius: open ? 0 : null, transition: this.bgColorTransitionStyle, cursor: 'pointer' }}
               className='btn btn-secondary btn-primary dropdown-toggle country-selector'
               onClick={(e) => this.onOpenHandler(e)}>
               {flag &&
@@ -374,7 +368,7 @@ export default class PhoneNumberTextField extends Component {
               }
             </button>
           </div>
-          {open && searchTerm.length > 0 && !disabled &&
+          {open && searchTerm.length > 0 &&
             <span
               aria-hidden='true'
               className='remove-token-container'
@@ -403,7 +397,6 @@ export default class PhoneNumberTextField extends Component {
             placeholder={open ? '555-555-5555' : placeholder}
             onKeyDown={(e) => this.onKeyDown(e)}
             value={open ? searchTerm : phoneNumber}
-            disabled={disabled}
             onChange={(e) => open ? this.onChangeTypeAhead(e.target.value) : this.onChangeText(e.target.value)}
           />
         </div>
