@@ -5,8 +5,8 @@ const cors = require('cors')
 const express = require('express');
 
 // Twilio Credentials
-const accountSid = 'ACa2c223eafd99f3f430296ea346ea63ec';
-const authToken = '4670e436d6461e314cfe2e38102940f7';
+const accountSid = functions.config().account.sid;
+const authToken = functions.config().account.token;
 const client = require('twilio')(accountSid, authToken);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
